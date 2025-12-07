@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deletedeploy   # <-- name field missing tha
+  labels:
+    app: delete-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: delete-app    # <-- matchLabels me typo tha
+  template:
+    metadata:
+      labels:
+        app: delete-app  # <-- indentation + key fix
+    spec:
+      containers:        # <-- 'conatiners' typo fixed
+        - name: delete-task
+          image: devacrrahul6.azurecr.io/deletetask-todo-app:latest
+          ports:
+            - containerPort: 8000   # <-- 'conatinerPort' typo fix
+          env:
+            - name: CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: delete-db-secret
+                  key: CONNECTION_STRING

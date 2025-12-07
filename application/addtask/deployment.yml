@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-task
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: addtask
+  template:
+    metadata:
+      labels:
+        app: addtask
+    spec:
+
+
+      containers:
+      - name: add-task
+        image: devacrrahul6.azurecr.io/addtask-todo-app:latest
+      
+        ports:
+        - containerPort: 8000
+        env:
+        - name: CONNECTION_STRING
+          # value: Driver={ODBC Driver 18 for SQL Server};Server=tcp:pradyumna.database.windows.net,1433;Database=pradyumna;Uid=pradyumna;Pwd=Jiva@9452800934;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
+          valueFrom:
+            secretKeyRef:
+              name: addtask-db-secret
+              key: CONNECTION_STRING
